@@ -1,1 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f14" />
+  <title>Unshackled</title>
 
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">U</div>
+      <div>
+        <div class="title">Unshackled</div>
+        <div class="subtitle">Debt payoff plan (Snowball)</div>
+      </div>
+    </div>
+    <button id="btnReset" class="ghost">Reset</button>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Monthly Snowball</h2>
+      <div class="grid2">
+        <label>
+          Extra payment each month (beyond minimums)
+          <input id="extraPayment" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g., 300" />
+        </label>
+
+        <label>
+          Strategy
+          <select id="strategy">
+            <option value="snowball" selected>Snowball (lowest balance first)</option>
+            <option value="avalanche">Avalanche (highest APR first)</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <button id="btnGenerate" class="primary">Generate plan</button>
+        <div class="hint">All data stays on this device (local storage).</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="row space">
+        <h2>Your Debts</h2>
+        <button id="btnAddDebt" class="secondary">Add debt</button>
+      </div>
+
+      <div id="debtsEmpty" class="empty">
+        Add your debts to see your payoff date.
+      </div>
+
+      <div id="debtsList" class="debts"></div>
+    </section>
+
+    <section class="card">
+      <h2>Plan</h2>
+      <div id="planEmpty" class="empty">Generate a plan to see your payoff schedule.</div>
+
+      <div id="planSummary" class="summary hidden"></div>
+
+      <details id="scheduleWrap" class="hidden">
+        <summary>Month-by-month schedule</summary>
+        <div id="schedule" class="schedule"></div>
+      </details>
+
+      <details id="milestonesWrap" class="hidden">
+        <summary>Milestones</summary>
+        <div id="milestones" class="milestones"></div>
+      </details>
+
+      <div class="disclaimer">
+        Education tool only. Not financial advice.
+      </div>
+    </section>
+  </main>
+
+  <!-- Add Debt Modal -->
+  <dialog id="debtModal" class="modal">
+    <form method="dialog" id="debtForm">
+      <h3>Add a debt</h3>
+
+      <label>
+        Name
+        <input id="debtName" type="text" maxlength="40" placeholder="e.g., Sallie Mae" required />
+      </label>
+
+      <div class="grid2">
+        <label>
+          Balance ($)
+          <input id="debtBalance" type="number" inputmode="decimal" min="0" step="0.01" placeholder="6100" required />
+        </label>
+        <label>
+          APR (%)
+          <input id="debtApr" type="number" inputmode="decimal" min="0" step="0.01" placeholder="6.8" required />
+        </label>
+      </div>
+
+      <label>
+        Minimum payment ($/mo)
+        <input id="debtMin" type="number" inputmode="decimal" min="0" step="0.01" placeholder="120" required />
+      </label>
+
+      <div class="row end">
+        <button value="cancel" class="ghost">Cancel</button>
+        <button id="btnSaveDebt" value="ok" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="./app.js"></script>
+</body>
+</html>
